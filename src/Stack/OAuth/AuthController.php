@@ -13,6 +13,7 @@ class AuthController
     private $storage;
     private $oauth;
     private $successUrl;
+    private $failureUrl;
 
     public function __construct(TokenStorageInterface $storage, ServiceInterface $oauth, $successUrl, $failureUrl)
     {
@@ -43,19 +44,16 @@ class AuthController
             );
             $userId = (int) $token->getExtraParams()['user_id'];
 
-            error_log("Authed: $userId");
-
             $successUrl = $this->successUrl ?: $request->getSession()->get('oauth.success_url');
             $request->getSession()->remove('oauth.success_url');
 
             if (!$successUrl) {
-                error_log('Did not find oauth.success_url.');
-
-                return new RedirectResponse($this->failureUrl);
+                throw new \RuntimeException('Did not find oauth.success_url.');
             }
 
             return new RedirectResponse($successUrl);
         } catch (TokenResponseException $e) {
+            // TODO: figure out some sane way to log this
             error_log($e->getMessage());
 
             return new RedirectResponse($this->failureUrl);

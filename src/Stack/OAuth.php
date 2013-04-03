@@ -8,14 +8,6 @@ use Stack\OAuth\ContainerConfig;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-// new OAuth($app, [
-//     'key' => 'foo',
-//     'secret' => 'bar',
-//     'callback_url' => 'http://localhost:8080/auth/verify',
-//     'success_url' => '/',
-//     'failure_url' => '/auth',
-// ]);
-
 class OAuth implements HttpKernelInterface
 {
     private $app;
@@ -41,8 +33,8 @@ class OAuth implements HttpKernelInterface
         } catch (TokenNotFoundException $e) {
             $token = null;
         }
+
         $request->attributes->set('oauth.token', $token);
-        $request->attributes->set('oauth.service', $this->container['oauth_service']);
 
         return $this->app->handle($request, $type, $catch);
     }
