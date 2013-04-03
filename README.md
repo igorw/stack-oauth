@@ -25,3 +25,7 @@ OAuth stack middleware.
 
 * /auth
 * /auth/verify
+
+## TODO
+
+* config validation
