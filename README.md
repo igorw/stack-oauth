@@ -29,3 +29,4 @@ OAuth stack middleware.
 ## TODO
 
 * config validation
+* tests
