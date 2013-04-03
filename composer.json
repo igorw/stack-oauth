@@ -21,6 +21,9 @@
         "stack/stack": "~1.0@dev",
         "stack/callable-http-kernel": "~1.0@dev"
     },
+    "suggest": {
+        "stack/session": "~1.0@dev"
+    },
     "autoload": {
         "psr-0": { "Stack": "src" }
     },
