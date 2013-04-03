@@ -30,3 +30,4 @@ OAuth stack middleware.
 
 * config validation
 * tests
+* more flexible path config (?)
