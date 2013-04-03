@@ -34,8 +34,10 @@ class ContainerConfig
             return new StreamClient();
         });
 
+        $container['oauth_service.class'] = 'OAuth\OAuth1\Service\Twitter';
+
         $container['oauth_service'] = $container->share(function ($container) {
-            return new Twitter(
+            return new $container['oauth_service.class'](
                 $container['credentials'],
                 $container['http_client'],
                 $container['storage'],
