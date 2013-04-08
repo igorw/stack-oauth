@@ -6,20 +6,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 require 'vendor/autoload.php';
 
-$app = new Silex\Application();
-
-$app->get('/', function (Request $request) {
-    return new RedirectResponse('/account');
-});
-
-$app->get('/account', function (Request $request) {
+$app = new Stack\CallableHttpKernel(function ($request) {
     $token = $request->attributes->get('oauth.token');
 
     if (!$token) {
         return new RedirectResponse('/auth');
     }
 
-    return sprintf('Welcome @%s!', $token->getExtraParams()['screen_name']);
+    $params = $token->getExtraParams();
+    return sprintf('Welcome @%s!', $params['screen_name']);
 });
 
 $stack = (new Stack\Stack())
