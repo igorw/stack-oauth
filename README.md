@@ -13,7 +13,7 @@ OAuth stack middleware.
 
 ## Usage
 
-    new OAuth($app, [
+    $app = new OAuth($app, [
         'key'           => 'foo',
         'secret'        => 'bar',
         'callback_url'  => 'http://localhost:8080/auth/verify',
