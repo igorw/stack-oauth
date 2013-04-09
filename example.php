@@ -17,7 +17,7 @@ $app = new Stack\CallableHttpKernel(function ($request) {
     return sprintf('Welcome @%s!', $params['screen_name']);
 });
 
-$stack = (new Stack\Stack())
+$stack = (new Stack\Builder())
     ->push('Stack\Session')
     ->push('Stack\OAuth', [
         'key'               => 'foo',
