@@ -14,7 +14,8 @@ $app = new Stack\CallableHttpKernel(function ($request) {
     }
 
     $params = $token->getExtraParams();
-    return sprintf('Welcome @%s!', $params['screen_name']);
+    $body = sprintf('Welcome @%s!', $params['screen_name']);
+    return new Response($body);
 });
 
 $stack = (new Stack\Builder())
