@@ -20,31 +20,22 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @dataProvider getActions
      */
-    public function getController($expectedAction)
+    public function it_gets_the_controller()
     {
         $container = new Pimple();
-        $definition = [
-            'className:actionA',
-            'className:actionB',
-            'className:actionC',
+
+        // path => definition
+        $map = [
+            '/auth1' => 'oauth:actionA',
+            '/auth2' => 'oauth:actionB',
         ];
 
-
-        $map = array();
         $router = new Router($container, $map);
-        list($controller, $action) = $router->getController($definition);
 
-        $this->assertEqual($expectedAction, $action);
-    }
-
-    public function getActions()
-    {
-        return [
-            ['actionA'],
-            ['actionB'],
-            ['actionC']
-        ];
+        list($controllerOne, $action) = $router->getController($map['/auth1']);
+        $this->assertInstanceOf('Stack\OAuth\AuthController', $controllerOne);
+        list($controllerTwo, $action) = $router->getController($map['/auth2']);
+        $this->assertInstanceOf('Stack\OAuth\AuthController', $controllerTwo);
     }
 }
