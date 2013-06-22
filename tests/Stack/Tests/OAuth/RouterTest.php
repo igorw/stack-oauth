@@ -5,6 +5,7 @@ namespace Stack;
 use OAuth\Common\Service\AbstractService;
 use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\Common\Token\AbstractToken;
+use OAuth\Common\Token\TokenInterface;
 use Pimple;
 use Stack\OAuth\AuthController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,9 +30,11 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $container = new Pimple();
 
-        // @todo mock these guys
         $container['storage'] = $this->getMock('Stack\TokenStorage');
-        $container['oauth_service'] = $this->getMock('Stack\ServiceInterface');
+        $container['oauth_service'] = $this->getMockBuilder('OAuth\OAuth1\Service\Twitter')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
         $container['success_url'] = 'http://localhost:8080/success';
         $container['failure_url'] = 'http://localhost:8080/failure';
 
@@ -44,7 +47,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             );
         });
 
-        // path => definition
         $map = [
             '/auth1' => 'auth_controller:actionA',
             '/auth2' => 'auth_controller:actionB',
@@ -62,25 +64,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-class TokenStorage extends AbstractToken
+class TokenStorage implements TokenStorageInterface
 {
-}
-
-class OauthService extends AbstractService
-{
-    public function getAuthorizationEndpoint()
+    public function storeAccessToken(TokenInterface $token)
     {
     }
 
-    public function getAccessTokenEndpoint()
-    {
-    }
-
-    public function request($path, $method = 'GET', array $body = [], array $extraHeaders = [])
-    {
-    }
-
-    public function getAuthorizationUri( array $additionalParameters = [] )
+    public function retrieveAccessToken()
     {
     }
 }
