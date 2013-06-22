@@ -27,10 +27,10 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $container = new Pimple();
 
         // @todo mock these guys
-        $container['storage'] = 'dummy';
-        $container['oauth_service'] = 'dummy';
-        $container['success_url'] = 'dummy';
-        $container['failure_url'] = 'dummy';
+        $container['storage'] = $this->getMock('TokenStorageInterface');
+        $container['oauth_service'] = $this->getMock('ServiceInterface');
+        $container['success_url'] = 'http://localhost:8080/success';
+        $container['failure_url'] = 'http://localhost:8080/failure';
 
         $container['auth_controller'] = $container->share(function ($container) {
             return new AuthController(
@@ -43,8 +43,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         // path => definition
         $map = [
-            '/auth1' => 'oauth_controller:actionA',
-            '/auth2' => 'oauth_controller:actionB',
+            '/auth1' => 'auth_controller:actionA',
+            '/auth2' => 'auth_controller:actionB',
         ];
 
         $router = new Router($container, $map);
