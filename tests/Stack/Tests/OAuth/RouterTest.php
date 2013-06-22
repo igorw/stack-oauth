@@ -5,18 +5,18 @@ namespace Stack;
 use Pimple;
 use Symfony\Component\HttpFoundation\Request;
 
-class RouterTest
+class RouterTest extends \PHPUnit_Framework_TestCase
 {
-    public function match(Request $request)
-    {
-        foreach ($this->map as $path => $definition) {
-            if ($path === $request->getPathInfo()) {
-                return $this->getController($definition);
-            }
-        }
-
-        return null;
-    }
+//    public function match(Request $request)
+//    {
+//        foreach ($this->map as $path => $definition) {
+//            if ($path === $request->getPathInfo()) {
+//                return $this->getController($definition);
+//            }
+//        }
+//
+//        return null;
+//    }
 
     /**
      * @test
@@ -31,7 +31,9 @@ class RouterTest
             'className:actionC',
         ];
 
-        $router = new Router();
+
+        $map = array();
+        $router = new Router($container, $map);
         list($controller, $action) = $router->getController($definition);
 
         $this->assertEqual($expectedAction, $action);
