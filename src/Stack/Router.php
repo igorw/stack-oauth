@@ -27,7 +27,7 @@ class Router
         return null;
     }
 
-    public function getController($definition)
+    private function getController($definition)
     {
         list($service, $action) = explode(':', $definition);
         $controller = $this->container[$service];

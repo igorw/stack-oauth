@@ -63,22 +63,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($controller);
         $this->assertNull($action);
     }
-
-    /**
-     * @test
-     */
-    public function it_gets_the_controller()
-    {
-        $router = new Router($this->container, $this->map);
-
-        list($controller, $action) = $router->getController($this->map['/auth1']);
-        $this->assertInstanceOf('Stack\OAuth\AuthController', $controller);
-        $this->assertEquals('actionA', $action);
-
-        list($controller, $action) = $router->getController($this->map['/auth2']);
-        $this->assertInstanceOf('Stack\OAuth\AuthController', $controller);
-        $this->assertEquals('actionB', $action);
-    }
 }
 
 class TokenStorage implements TokenStorageInterface
