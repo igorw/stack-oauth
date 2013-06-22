@@ -12,33 +12,22 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
-//    public function match(Request $request)
-//    {
-//        foreach ($this->map as $path => $definition) {
-//            if ($path === $request->getPathInfo()) {
-//                return $this->getController($definition);
-//            }
-//        }
-//
-//        return null;
-//    }
+    protected $container;
+    protected $map;
 
-    /**
-     * @test
-     */
-    public function it_gets_the_controller()
+    public function setUp()
     {
-        $container = new Pimple();
+        $this->container = new Pimple();
 
-        $container['storage'] = $this->getMock('Stack\TokenStorage');
-        $container['oauth_service'] = $this->getMockBuilder('OAuth\OAuth1\Service\Twitter')
+        $this->container['storage'] = $this->getMock('Stack\TokenStorage');
+        $this->container['oauth_service'] = $this->getMockBuilder('OAuth\OAuth1\Service\Twitter')
             ->disableOriginalConstructor()
             ->getMock()
         ;
-        $container['success_url'] = 'http://localhost:8080/success';
-        $container['failure_url'] = 'http://localhost:8080/failure';
+        $this->container['success_url'] = 'http://localhost:8080/success';
+        $this->container['failure_url'] = 'http://localhost:8080/failure';
 
-        $container['auth_controller'] = $container->share(function ($container) {
+        $this->container['auth_controller'] = $this->container->share(function ($container) {
             return new AuthController(
                 $container['storage'],
                 $container['oauth_service'],
@@ -47,18 +36,49 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             );
         });
 
-        $map = [
+        $this->map = [
             '/auth1' => 'auth_controller:actionA',
             '/auth2' => 'auth_controller:actionB',
         ];
+    }
 
-        $router = new Router($container, $map);
+    /**
+     * @test
+     */
+    public function it_matches_when_request_pathinfo_path_is_mapped()
+    {
+        $router = new Router($this->container, $this->map);
+        $request = Request::create('/auth1');
+        list($controller, $action) = $router->match($request);
+        $this->assertInstanceOf('Stack\OAuth\AuthController', $controller);
+        $this->assertEquals('actionA', $action);
+    }
 
-        list($controller, $action) = $router->getController($map['/auth1']);
+
+    /**
+     * @test
+     */
+    public function it_does_not_match_for_non_mapped_path()
+    {
+        $router = new Router($this->container, $this->map);
+        $request = Request::create('/something_else_not_mapped');
+        list($controller, $action) = $router->match($request);
+        $this->assertNull($controller);
+        $this->assertNull($action);
+    }
+
+    /**
+     * @test
+     */
+    public function it_gets_the_controller()
+    {
+        $router = new Router($this->container, $this->map);
+
+        list($controller, $action) = $router->getController($this->map['/auth1']);
         $this->assertInstanceOf('Stack\OAuth\AuthController', $controller);
         $this->assertEquals('actionA', $action);
 
-        list($controller, $action) = $router->getController($map['/auth2']);
+        list($controller, $action) = $router->getController($this->map['/auth2']);
         $this->assertInstanceOf('Stack\OAuth\AuthController', $controller);
         $this->assertEquals('actionB', $action);
     }
