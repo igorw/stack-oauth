@@ -2,9 +2,7 @@
 
 namespace Stack;
 
-use OAuth\Common\Service\AbstractService;
 use OAuth\Common\Storage\TokenStorageInterface;
-use OAuth\Common\Token\AbstractToken;
 use OAuth\Common\Token\TokenInterface;
 use Pimple;
 use Stack\OAuth\AuthController;
@@ -53,7 +51,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Stack\OAuth\AuthController', $controller);
         $this->assertEquals('actionA', $action);
     }
-
 
     /**
      * @test
