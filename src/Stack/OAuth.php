@@ -23,9 +23,9 @@ class OAuth implements HttpKernelInterface
     {
         $this->container['session'] = $request->getSession();
 
-        list($controller, $action) = $this->container['router']->match($request);
+        $controller = $this->container['router']->match($request);
         if ($controller) {
-            return $controller->$action($request);
+            return $controller($request);
         }
 
         try {
