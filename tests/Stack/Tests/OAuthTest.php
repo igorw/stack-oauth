@@ -9,6 +9,7 @@ use Stack\OAuth\AuthController;
 use Stack\OAuth;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class OAuthTest extends \PHPUnit_Framework_TestCase
@@ -32,12 +33,14 @@ class OAuthTest extends \PHPUnit_Framework_TestCase
     /** @test */
     public function loadsTokenInRequest()
     {
-//        $app = $this->getHttpKernelMock(Response::create('ok'));
-//        $oauthApp = new OAuth($app, []);
-//        $requestWithSession = Request::create('/one_path');
-//        $requestWithSession->setSession(new Session());
-//        $response = $oauthApp->handle($requestWithSession);
-//        $this->assertContains('ok', $response->getContent());
+        $app = $this->getHttpKernelMock(Response::create('ok'));
+        $oauthApp = new OAuth($app, []);
+        $requestWithSession = Request::create('/one_path');
+        $session = new Session(null, new AttributeBag('_auth_attributes'));
+        $session->set('lusitanian_oauth_token', 'token123');
+        $requestWithSession->setSession($session);
+        $response = $oauthApp->handle($requestWithSession);
+        $this->assertContains('ok', $response->getContent());
     }
 
     private function getHttpKernelMock(Response $response)
