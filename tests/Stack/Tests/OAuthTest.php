@@ -18,7 +18,7 @@ class OAuthTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function it_automatically_sets_its_container_configuration_and_handles_specific_auth_requests()
+    public function handlesSpecificAuthRequest()
     {
         $app = $this->getHttpKernelMock(Response::create('ok'));
         $oauthApp = new OAuth($app, ['auth_controller' => $this->getControllerMock()]);
@@ -27,7 +27,7 @@ class OAuthTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function it_loads_middleware_auth_token_into_the_request()
+    public function loadsMiddlewareTokenInRequest()
     {
         $app = $this->getHttpKernelMock(Response::create('ok'));
         $oauthApp = new OAuth($app, []);
