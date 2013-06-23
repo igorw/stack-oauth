@@ -14,8 +14,6 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class OAuthTest extends TestCase
 {
-    const SIMULATED_TIME = 1337882841;
-
     public function testDefaultSetsNoCookies()
     {
         $app = new CallableHttpKernel(function (Request $request) {
@@ -24,11 +22,8 @@ class OAuthTest extends TestCase
 
         $client = new Client($app);
 
-        $client->request('GET', '/');
+        $client->request('GET', '/auth');
 
         $this->assertEquals('test', $client->getResponse()->getContent());
-
-        $cookies = $client->getResponse()->headers->getCookies();
-        $this->assertCount(0, $cookies);
     }
 }
