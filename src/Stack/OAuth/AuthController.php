@@ -15,12 +15,7 @@ class AuthController
     private $successUrl;
     private $failureUrl;
 
-    public function __construct(
-        TokenStorageInterface $storage,
-        ServiceInterface $oauth,
-        $successUrl,
-        $failureUrl
-    )
+    public function __construct(TokenStorageInterface $storage, ServiceInterface $oauth, $successUrl, $failureUrl)
     {
         $this->storage = $storage;
         $this->oauth = $oauth;
