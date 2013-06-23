@@ -3,9 +3,9 @@
 namespace Stack;
 
 use OAuth\Common\Storage\Exception\TokenNotFoundException;
-use OAuth\Common\Storage\SymfonySession;
 use Pimple;
 use Stack\OAuth\ContainerConfig;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -24,7 +24,7 @@ class OAuth implements HttpKernelInterface
     {
         $this->container['session'] = $request->getSession();
 
-        if (!$this->container['session'] instanceof SymfonySession) {
+        if (!$this->container['session'] instanceof SessionInterface) {
             throw new \Exception('You must configure a middleware for sessions.');
         }
 
