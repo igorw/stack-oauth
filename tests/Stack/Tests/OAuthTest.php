@@ -12,32 +12,26 @@ use Symfony\Component\HttpFoundation\Response;
 
 class OAuthTest extends \PHPUnit_Framework_TestCase
 {
-    protected $container;
-    protected $map;
-
     public function setUp()
     {
 
     }
 
     /** @test */
-    public function it_automatically_sets_its_container_configuration()
+    public function it_automatically_sets_its_container_configuration_and_handles_specific_auth_requests()
     {
-        $controllerMock = $this->getMockBuilder('Stack\OAuth\AuthController')
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-
-        $controllerMock
-            ->expects($this->any())
-            ->method('authAction')
-            ->with($this->isInstanceOf('Symfony\Component\HttpFoundation\Request'))
-            ->will($this->returnValue(Response::create('ok')))
-        ;
-
-        $app = $this->getHttpKernelMock(new Response('ok'));
-        $oauthApp = new OAuth($app, ['auth_controller' => $controllerMock]);
+        $app = $this->getHttpKernelMock(Response::create('ok'));
+        $oauthApp = new OAuth($app, ['auth_controller' => $this->getControllerMock()]);
         $response = $oauthApp->handle(Request::create('/auth'));
+        $this->assertContains('ok', $response->getContent());
+    }
+
+    /** @test */
+    public function it_loads_middleware_auth_token_into_the_request()
+    {
+        $app = $this->getHttpKernelMock(Response::create('ok'));
+        $oauthApp = new OAuth($app, []);
+        $response = $oauthApp->handle(Request::create('/one_path'));
         $this->assertContains('ok', $response->getContent());
     }
 
@@ -51,5 +45,22 @@ class OAuthTest extends \PHPUnit_Framework_TestCase
         ;
 
         return $app;
+    }
+
+    private function getControllerMock()
+    {
+        $controllerMock = $this->getMockBuilder('Stack\OAuth\AuthController')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $controllerMock
+            ->expects($this->any())
+            ->method('authAction')
+            ->with($this->isInstanceOf('Symfony\Component\HttpFoundation\Request'))
+            ->will($this->returnValue(Response::create('ok')))
+        ;
+
+        return $controllerMock;
     }
 }
