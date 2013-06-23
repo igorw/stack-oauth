@@ -41,9 +41,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_matches_when_request_pathinfo_path_is_mapped()
     {
         $router = new Router($this->container, $this->map);
@@ -53,9 +51,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('actionA', $action);
     }
 
-    /**
-     * @test
-     */
+    /** @test */
     public function it_does_not_match_for_non_mapped_path()
     {
         $router = new Router($this->container, $this->map);
