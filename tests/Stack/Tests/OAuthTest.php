@@ -27,7 +27,7 @@ class OAuthTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function loadsMiddlewareTokenInRequest()
+    public function loadsTokenInRequest()
     {
         $app = $this->getHttpKernelMock(Response::create('ok'));
         $oauthApp = new OAuth($app, []);
