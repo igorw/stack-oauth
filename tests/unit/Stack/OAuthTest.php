@@ -1,6 +1,6 @@
 <?php
 
-namespace Stack\Tests;
+namespace Stack;
 
 use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\Common\Token\TokenInterface;
@@ -47,6 +47,7 @@ class OAuthTest extends \PHPUnit_Framework_TestCase
         $session->remove('lusitanian_oauth_token');
         $requestWithSession->setSession($session);
         $response = $oauthApp->handle($requestWithSession);
+
         $this->assertNull($requestWithSession->get('oauth.token'));
         $this->assertContains('ok', $response->getContent());
     }

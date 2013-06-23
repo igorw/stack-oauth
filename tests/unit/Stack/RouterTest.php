@@ -1,6 +1,6 @@
 <?php
 
-namespace Stack\Tests;
+namespace Stack;
 
 use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\Common\Token\TokenInterface;
@@ -18,7 +18,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->container = new Pimple();
 
-        $this->container['storage'] = $this->getMock('Stack\Tests\TokenStorage');
+        $this->container['storage'] = $this->getMock('Stack\TokenStorage');
         $this->container['oauth_service'] = $this->getMockBuilder('OAuth\OAuth1\Service\Twitter')
             ->disableOriginalConstructor()
             ->getMock()
