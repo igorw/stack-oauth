@@ -11,14 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage;
 
 class OAuthTest extends \PHPUnit_Framework_TestCase
 {
-    public function setUp()
-    {
-
-    }
-
     /** @test */
     public function handlesSpecificAuthRequest()
     {
@@ -36,10 +32,22 @@ class OAuthTest extends \PHPUnit_Framework_TestCase
         $app = $this->getHttpKernelMock(Response::create('ok'));
         $oauthApp = new OAuth($app, []);
         $requestWithSession = Request::create('/one_path');
-        $session = new Session(null, new AttributeBag('_auth_attributes'));
+        $attributes = new AttributeBag('_auth_attributes');
+        $attributes->setName('auth_attribute_name');
+        $mockFileSessionStorage = new MockFileSessionStorage();
+        $session = new Session($mockFileSessionStorage, $attributes);
+        $session->start();
         $session->set('lusitanian_oauth_token', 'token123');
         $requestWithSession->setSession($session);
         $response = $oauthApp->handle($requestWithSession);
+
+        $this->assertEquals('token123', $requestWithSession->get('oauth.token'));
+        $this->assertContains('ok', $response->getContent());
+
+        $session->remove('lusitanian_oauth_token');
+        $requestWithSession->setSession($session);
+        $response = $oauthApp->handle($requestWithSession);
+        $this->assertNull($requestWithSession->get('oauth.token'));
         $this->assertContains('ok', $response->getContent());
     }
 
