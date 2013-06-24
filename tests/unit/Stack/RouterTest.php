@@ -42,7 +42,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function it_matches_when_request_pathinfo_path_is_mapped()
+    public function matchesWhenRequestPathinfoPathIsMapped()
     {
         $router = new Router($this->container, $this->map);
         $request = Request::create('/auth1');
@@ -52,7 +52,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /** @test */
-    public function it_does_not_match_for_non_mapped_path()
+    public function DoesNotMatchForNonMappedPath()
     {
         $router = new Router($this->container, $this->map);
         $request = Request::create('/something_else_not_mapped');
