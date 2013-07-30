@@ -21,7 +21,7 @@ $app = new Stack\CallableHttpKernel(function ($request) {
 
 $stack = (new Stack\Builder())
     ->push('Stack\Session')
-    ->push('Stack\OAuth', [
+    ->push('Igorw\Stack\OAuth', [
         'key'               => 'foo',
         'secret'            => 'bar',
         'callback_url'      => 'http://localhost:8080/auth/verify',

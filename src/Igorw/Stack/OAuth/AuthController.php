@@ -1,6 +1,6 @@
 <?php
 
-namespace Stack\OAuth;
+namespace Igorw\Stack\OAuth;
 
 use OAuth\OAuth1\Service\ServiceInterface;
 use OAuth\Common\Storage\TokenStorageInterface;

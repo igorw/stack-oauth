@@ -1,6 +1,6 @@
 <?php
 
-namespace Stack;
+namespace Igorw\Stack;
 
 use Pimple;
 use Symfony\Component\HttpFoundation\Request;

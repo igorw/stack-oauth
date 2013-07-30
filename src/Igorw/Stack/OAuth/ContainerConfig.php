@@ -1,6 +1,6 @@
 <?php
 
-namespace Stack\OAuth;
+namespace Igorw\Stack\OAuth;
 
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Client\StreamClient;

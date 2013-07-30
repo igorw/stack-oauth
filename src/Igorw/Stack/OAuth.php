@@ -1,6 +1,6 @@
 <?php
 
-namespace Stack;
+namespace Igorw\Stack;
 
 use OAuth\Common\Storage\Exception\TokenNotFoundException;
 use Pimple;

@@ -13,6 +13,8 @@ OAuth stack middleware.
 
 ## Usage
 
+    use Igorw\Stack\OAuth;
+
     $app = new OAuth($app, [
         'key'           => 'foo',
         'secret'        => 'bar',
