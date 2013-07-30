@@ -1,5 +1,5 @@
 {
-    "name": "stack/oauth",
+    "name": "igorw/stack-oauth",
     "description": "OAuth stack middleware.",
     "keywords": ["stack", "oauth"],
     "license": "MIT",
