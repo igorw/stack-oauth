@@ -4,7 +4,7 @@ namespace Igorw\Stack;
 
 use OAuth\Common\Storage\Exception\TokenNotFoundException;
 use Pimple;
-use Stack\OAuth\ContainerConfig;
+use Igorw\Stack\OAuth\ContainerConfig;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 
