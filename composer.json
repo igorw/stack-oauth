@@ -21,7 +21,7 @@
         "stack/builder": "~1.0@dev",
         "stack/session": "~1.0@dev",
         "stack/callable-http-kernel": "~1.0@dev",
-        "phpunit/phpunit": "3.7.28"
+        "phpunit/phpunit": "3.7.*"
     },
     "suggest": {
         "stack/session": "~1.0@dev"

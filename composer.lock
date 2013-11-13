@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "51e3c9681f5557e45a367802bdbb2b01",
+    "hash": "5d40353bdc8dbd1d18b1509e50d909c6",
     "packages": [
         {
             "name": "lusitanian/oauth",
