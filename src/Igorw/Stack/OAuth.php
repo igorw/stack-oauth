@@ -4,7 +4,7 @@ namespace Igorw\Stack;
 
 use OAuth\Common\Storage\Exception\TokenNotFoundException;
 use Pimple;
-use Stack\OAuth\ContainerConfig;
+use Igorw\Stack\OAuth\ContainerConfig;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -35,6 +35,10 @@ class OAuth implements HttpKernelInterface
         }
 
         $request->attributes->set('oauth.token', $token);
+        $request->attributes->set(
+            'stack.authn.token',
+            $this->container['token_translator']($token)
+        );
 
         return $this->app->handle($request, $type, $catch);
     }
@@ -47,7 +51,13 @@ class OAuth implements HttpKernelInterface
         $config->process($container);
 
         foreach ($options as $name => $value) {
-            $container[$name] = $value;
+            if (in_array($name, ['token_translator'])) {
+                $container[$name] = $container->share(function () use ($value) {
+                    return $value;
+                });
+            } else {
+                $container[$name] = $value;
+            }
         }
 
         return $container;

@@ -8,7 +8,7 @@ use OAuth\Common\Storage\SymfonySession;
 use OAuth\OAuth1\Signature\Signature;
 use OAuth\OAuth1\Service\Twitter;
 use Pimple;
-use Stack\Router;
+use Igorw\Stack\Router;
 
 class ContainerConfig
 {
@@ -64,5 +64,9 @@ class ContainerConfig
         });
 
         $container['success_url'] = null;
+
+        $container['token_translator'] = $container->protect(function ($token) {
+            return $token;
+        });
     }
 }
