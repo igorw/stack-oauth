@@ -64,5 +64,9 @@ class ContainerConfig
         });
 
         $container['success_url'] = null;
+
+        $container['token_translator'] = $container->protect(function ($token) {
+            return $token;
+        });
     }
 }
