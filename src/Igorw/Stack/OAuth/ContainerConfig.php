@@ -57,6 +57,7 @@ class ContainerConfig
         $container['routes'] = [
             '/auth'         => 'auth_controller:authAction',
             '/auth/verify'  => 'auth_controller:verifyAction',
+            '/auth/logout'  => 'auth_controller:logoutAction',
         ];
 
         $container['router'] = $container->share(function ($container) {
