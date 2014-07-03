@@ -36,7 +36,19 @@ class ContainerConfig
 
         $container['oauth_service.class'] = 'OAuth\OAuth1\Service\Twitter';
 
+        $container['service_scopes'] = ['user:email'];
+        $container['service_base_url'] = null;
+
         $container['oauth_service'] = $container->share(function ($container) {
+            if (strpos($container['oauth_service.class'], 'OAuth2') !== false) {
+                return new $container['oauth_service.class'](
+                    $container['credentials'],
+                    $container['http_client'],
+                    $container['storage'],
+                    $container['service_scopes'],
+                    $container['service_base_url']
+                );
+            }
             return new $container['oauth_service.class'](
                 $container['credentials'],
                 $container['http_client'],
@@ -57,6 +69,7 @@ class ContainerConfig
         $container['routes'] = [
             '/auth'         => 'auth_controller:authAction',
             '/auth/verify'  => 'auth_controller:verifyAction',
+            '/auth/logout'  => 'auth_controller:logoutAction',
         ];
 
         $container['router'] = $container->share(function ($container) {
