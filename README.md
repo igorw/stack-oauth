@@ -13,15 +13,17 @@ OAuth stack middleware.
 
 ## Usage
 
-    use Igorw\Stack\OAuth;
+```php
+use Igorw\Stack\OAuth;
 
-    $app = new OAuth($app, [
-        'key'           => 'foo',
-        'secret'        => 'bar',
-        'callback_url'  => 'http://localhost:8080/auth/verify',
-        'success_url'   => '/',
-        'failure_url'   => '/auth',
-    ]);
+$app = new OAuth($app, [
+    'key'           => 'foo',
+    'secret'        => 'bar',
+    'callback_url'  => 'http://localhost:8080/auth/verify',
+    'success_url'   => '/',
+    'failure_url'   => '/auth',
+]);
+```
 
 ## Pre-defined URLs
 
